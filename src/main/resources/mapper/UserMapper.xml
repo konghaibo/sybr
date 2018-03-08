@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sybr.backend.dao.UserDao">
+
+    <!--列表查询-->
+    <select id="list" parameterType="com.sybr.backend.utils.QueryListBean" resultMap="userMap">
+        SELECT id,name,code FROM user
+        <where>
+            <if test="queryTerm!=null">
+                <foreach collection="queryTerm.keys" item="k" separator="and">
+                    <if test="null != queryTerm[k]">
+                        ${k} = #{queryTerm[${k}]}
+                    </if>
+                </foreach>
+            </if>
+            <!--<if test="queryTerm!=null and queryTerm.name!=null and queryTerm.name!=''">-->
+                <!--and name LIKE '%#{queryTerm.name}%'-->
+            <!--</if>-->
+            <!--<if test="queryTerm!=null and queryTerm.code!=null and queryTerm.code!=''">-->
+                <!--and code LIKE  '%#{queryTerm.code}%'-->
+            <!--</if>-->
+        </where>
+        <if test="sortItem!=null and sortItem!=''">
+            ORDER BY #{sortItem}
+            <if test="sortWay==0">
+                DESC
+            </if>
+        </if>
+        <if test="begin!=null and pageSize!=null">
+            limit #{begin},#{pageSize};
+        </if>
+
+    </select>
+
+    <!--条件数量查询-->
+    <select id="queryCount" parameterType="com.sybr.backend.utils.QueryListBean" resultType="int">
+        SELECT count(id) FROM user
+        <where>
+            <if test="queryTerm!=null and queryTerm.name!=null and queryTerm.name!=''">
+                name LIKE '%${queryTerm.name}%'
+            </if>
+            <if test="queryTerm!=null and queryTerm.code!=null and queryTerm.code!=''">
+                and code LIKE  '%${queryTerm.code}%'
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="userMap" type="com.sybr.backend.entity.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="code" property="code"></result>
+    </resultMap>
+
+    <!--mybatis更新sql语句：-->
+
+    <!--<update id="publishT00_notice" parameterType="Map">-->
+        <!--update test-->
+        <!--set createdate = #{createdate},-->
+        <!--creator = #{creator}-->
+        <!--where id in-->
+        <!--<foreach collection="ids" item="ids" separator="," open="(" close=")">-->
+            <!--#{ids}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--传入map参数类型：-->
+
+    <!--HashMap<String,Object> map = new HashMap<String, Object>();-->
+    <!--map.put("creator", "creator");-->
+    <!--map.put("createdate", "createdate");-->
+
+    <!--String[] ids = {"1","2"};-->
+    <!--map.put("ids", ids );-->
+</mapper>
+

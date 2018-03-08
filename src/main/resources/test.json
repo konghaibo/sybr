@@ -1,0 +1,22 @@
+{
+  "code": 0,
+  "msg": "请求成功",
+  "data": {
+    "pageNum": 1,
+    "totalPage": 1,
+    "totalCount": 2,
+    "size": 2,
+    "data": [
+      {
+        "id": "abcd11",
+        "userName": "admin",
+        "userCode": "A001"
+      },
+      {
+        "id": "abcd12",
+        "userName": "user",
+        "userCode": "A002"
+      }
+    ]
+  }
+}
