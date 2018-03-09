@@ -24,7 +24,7 @@ public class QueryListBean<T> {
     /**
      * 查询条件
      */
-    private T queryTerm;
+    private T queryConditions;
     /**
      * 排序条件
      */
@@ -60,7 +60,7 @@ public class QueryListBean<T> {
 
             return false;
         }
-        if (queryTerm != null ? !queryTerm.equals(that.queryTerm) : that.queryTerm != null) {
+        if (queryConditions != null ? !queryConditions.equals(that.queryConditions) : that.queryConditions != null) {
 
             return false;
         }
@@ -76,7 +76,7 @@ public class QueryListBean<T> {
         int result = begin != null ? begin.hashCode() : 0;
         result = 31 * result + (pageSize != null ? pageSize.hashCode() : 0);
         result = 31 * result + (pageNum != null ? pageNum.hashCode() : 0);
-        result = 31 * result + (queryTerm != null ? queryTerm.hashCode() : 0);
+        result = 31 * result + (queryConditions != null ? queryConditions.hashCode() : 0);
         result = 31 * result + (sortItem != null ? sortItem.hashCode() : 0);
         result = 31 * result + (sortWay != null ? sortWay.hashCode() : 0);
         return result;
@@ -109,12 +109,12 @@ public class QueryListBean<T> {
         this.pageNum = pageNum;
     }
 
-    public T getQueryTerm() {
-        return queryTerm;
+    public T getQueryConditions() {
+        return queryConditions;
     }
 
-    public void setQueryTerm(T queryTerm) {
-        this.queryTerm = queryTerm;
+    public void setQueryConditions(T queryConditions) {
+        this.queryConditions = queryConditions;
     }
 
     public String getSortItem() {
@@ -130,6 +130,7 @@ public class QueryListBean<T> {
     }
 
     public void setSortWay(String sortWay) {
+
         this.sortWay = sortWay;
     }
 }

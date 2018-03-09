@@ -2,29 +2,31 @@
     a.user = {
         table:{},
         datatables_options:{
-            oLanguage:{
-                sZeroRecords: "没有您要搜索的内容",
-                // sProcessing : "处理中...",
-                sLoadingRecords: "载入中..."
-            },
-            ajax: {
-                beforeSend:function(){
-                    $(".overlay").show();
-                },
-                complete: function(){
-                    $(".overlay").hide();
-                },
-                //指定数据源
-                crossDomain: true,
-                url: ctx+"/users/query",
-                type: 'POST',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: function(param) {
-                    param.name="this is a namess";
-                    return JSON.stringify(param);
-                }
-            },
+            oLanguage:a.DataTableLang,
+            // ajax: {
+            //     beforeSend:function(){
+            //         $(".overlay").show();
+            //     },
+            //     complete: function(){
+            //         $(".overlay").hide();
+            //     },
+            //     //指定数据源
+            //     crossDomain: true,
+            //     url: ctx+"/users/query",
+            //     type: 'POST',
+            //     contentType: "application/json; charset=utf-8",
+            //     dataType: 'json',
+            //     data: function(param) {
+            //         return JSON.stringify({});
+            //     },
+            //     success:function (result) {
+            //         a.user.table.clear();
+            //         if(result.data.totalCount >0){
+            //             a.user.table.rows.add(result.data.data);
+            //         }
+            //         a.user.table.draw();
+            //     }
+            // },
             //每页显示三条数据
             // processing: true,
             lengthChange: false,
@@ -37,29 +39,28 @@
                     "data": "id"
                 },
                 {
-                    "data": "title"
+                    "data": "name"
                 },
                 {
-                    "data": "url"
+                    "data": "code"
                 }],
-            "columnDefs": [{
+            columnDefs: [{
                 // "visible": false,
                 //"targets": 0
             },
                 {
                     "render": function(data, type, row, meta) {
                         //渲染 把数据源中的标题和url组成超链接
-                        return '<a href="' + data + '" target="_blank">' + row.title + '</a>';
+                        return '<a href="' + data + '" target="_blank">' + row.name + '</a>';
                     },
                     //指定是第三列
                     "targets": 1
                 }]
-
         },
         init:function () {
             $("#btn_query").on("click", a.user.btnSearchClick);
-            var t = $('#usersTable').DataTable(a.user.datatables_options);
-            a.user.table = t;
+            a.user.table = $('#usersTable').DataTable(a.user.datatables_options);
+            $("#btn_query").trigger("click");
             // t.on('order.dt search.dt',
             //     function() {
             //         t.column(0, {
@@ -71,16 +72,21 @@
             //     }).draw();
         },
         btnSearchClick:function () {
-            $("#btn_query").attr("disabled","true");
-            $(".overlay").show();
             var params = {};
-            params.name="khb";
-            params.id=1;
+            // params.queryConditions = {};
+            // params.queryConditions.name = $("#query_userName").val();
+            // params.queryConditions.code = $("#query_userCode").val();
+            var params = {};
+            params.queryConditions = $("#queryForm").serializeJSON();
             $.ajax({
-                // beforeSend:function(XMLHttpRequest){
-                //     alert("dddd");
-                //     $(".overlay").show();
-                // },
+                beforeSend:function(){
+                    $("#btn_query").attr("disabled","true");
+                    $(".overlay").show();
+                },
+                complete: function(){
+                    $(".overlay").hide();
+                    $("#btn_query").attr("disabled",false);
+                },
                 type: "POST",
                 // async: true,
                 contentType: "application/json;charset=utf-8",
@@ -90,12 +96,11 @@
                 data: JSON.stringify(params),
                 dataType: "json",
                 success: function (result) {
-                    alert("数据加载完成");
                     a.user.table.clear();
-                    a.user.table.rows.add(result.data);
+                    if(result.data.totalCount >0){
+                        a.user.table.rows.add(result.data.data);
+                    }
                     a.user.table.draw();
-                    $(".overlay").hide();
-                    $("#btn_query").attr("disabled",false);
                 }
             });
             // var url = a.user.table.ajax.url(ctx+"/users/query?date="+new Date().getTime());

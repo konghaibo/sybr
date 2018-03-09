@@ -4,20 +4,20 @@
 
     <!--列表查询-->
     <select id="list" parameterType="com.sybr.backend.utils.QueryListBean" resultMap="userMap">
-        SELECT id,name,code FROM user
+        SELECT id,name,code,userDesc FROM sybr_user
         <where>
-            <if test="queryTerm!=null">
-                <foreach collection="queryTerm.keys" item="k" separator="and">
-                    <if test="null != queryTerm[k]">
-                        ${k} = #{queryTerm[${k}]}
+            <if test="queryConditions!=null">
+                <foreach collection="queryConditions.keys" item="k" separator="and">
+                    <if test="null != queryConditions[k] and '' != queryConditions[k]">
+                        ${k} = #{queryConditions[${k}]}
                     </if>
                 </foreach>
             </if>
-            <!--<if test="queryTerm!=null and queryTerm.name!=null and queryTerm.name!=''">-->
-                <!--and name LIKE '%#{queryTerm.name}%'-->
+            <!--<if test="queryConditions!=null and queryConditions.name!=null and queryConditions.name!=''">-->
+                <!--and name LIKE '%#{queryConditions.name}%'-->
             <!--</if>-->
-            <!--<if test="queryTerm!=null and queryTerm.code!=null and queryTerm.code!=''">-->
-                <!--and code LIKE  '%#{queryTerm.code}%'-->
+            <!--<if test="queryConditions!=null and queryConditions.code!=null and queryConditions.code!=''">-->
+                <!--and code LIKE  '%#{queryConditions.code}%'-->
             <!--</if>-->
         </where>
         <if test="sortItem!=null and sortItem!=''">
@@ -36,11 +36,11 @@
     <select id="queryCount" parameterType="com.sybr.backend.utils.QueryListBean" resultType="int">
         SELECT count(id) FROM user
         <where>
-            <if test="queryTerm!=null and queryTerm.name!=null and queryTerm.name!=''">
-                name LIKE '%${queryTerm.name}%'
+            <if test="queryConditions!=null and queryConditions.name!=null and queryConditions.name!=''">
+                name LIKE '%${queryConditions.name}%'
             </if>
             <if test="queryTerm!=null and queryTerm.code!=null and queryTerm.code!=''">
-                and code LIKE  '%${queryTerm.code}%'
+                and code LIKE  '%${queryConditions.code}%'
             </if>
         </where>
     </select>

@@ -54,20 +54,20 @@
                     <div class="row">
                         <div class="col-lg-16">
                             <div class="box-header with-border" style="padding:0px 0px 0px 15px;">
+                                <form id="queryForm">
                                 <label >用户名：</label>
-                                <input type="text" id="query01_username">&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label >IMEI码：</label>
-                                <input type="text" id="query01_imei">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="text" name="name" id="query_userName">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label >用户代码：</label>
+                                <input type="text" name="code"  id="query_userCode">&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label >状态：</label>
-                                <select id="query01_status">
+                                <select name="userDesc" id="query_userStatus">
                                     <option value =""></option>
                                     <option value ="0">激活</option>
                                     <option value ="1">禁用</option>
                                 </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" id="btn_query" class="btn btn-primary btn-sm" style="margin-bottom:5px;">Submit</button>
+                                </form>
                             </div>
-
-
                         </div>
                     </div>
                     <!-- /.row -->
@@ -122,6 +122,7 @@
 
 <!-- jQuery 3 -->
 <script src="${ctx}/adminLTE/components/jquery/jquery.min.js"></script>
+<script src="${ctx}/adminLTE/components/jquery/jquery.serializejson.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="${ctx}/adminLTE/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/adminLTE/components/datatables/js/jquery.dataTables.min.js"></script>

@@ -13,6 +13,7 @@ public class User {
      * 用户代码
      */
     private String code;
+    private String userDesc;
 
     public String getId() {
         return id;
@@ -36,5 +37,13 @@ public class User {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getUserDesc() {
+        return userDesc;
+    }
+
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
     }
 }
