@@ -116,4 +116,71 @@
             // });
         }
     }
+    a.user2 = {
+        table:{},
+        datatables_options:{
+            oLanguage:a.DataTableLang,
+            lengthChange: false,
+            searching: false,
+            autoWidth: false,
+            iDisplayLength: 3,
+            ordering: false,
+            // processing: true,
+            serverSide: true,
+            ajax: function(data, callback, settings) {
+                data.khb = "konghaibo";
+                console.log(JSON.stringify(data));
+                $.ajax({
+                    beforeSend:function(){
+                        $("#btn_query").attr("disabled","true");
+                        $(".overlay").show();
+                    },
+                    complete: function(){
+                        $(".overlay").hide();
+                        $("#btn_query").attr("disabled",false);
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    url: ctx + "/users/query2",
+                    cache : false,  //禁用缓存
+                    data: JSON.stringify(data),    //传入已封装的参数
+                    // data: function() {
+                    //             return JSON.stringify({});
+                    //         },
+                    dataType: "json",
+                    success: function(result) {
+                        //异常判断与处理
+                        // if (result.errorCode) {
+                        //     alert("查询失败");
+                        //     return;
+                        // }
+                        //封装返回数据
+                        var returnData = {};
+                        returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                        returnData.recordsTotal = result.data.totalCount;//总记录数
+                        returnData.recordsFiltered = result.data.totalCount;//后台不实现过滤功能，每次查询均视作全部结果
+                        returnData.data = result.data.data;
+                        //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
+                        //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
+                        callback(returnData);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("查询失败");
+                    }
+                });
+            },
+            columns: [
+                { "data": "id" },
+                { "data": "name" },
+                { "data": "code" }
+            ]
+        },
+        init:function () {
+            $("#btn_query").on("click", a.user2.btnSearchClick);
+            a.user2.table = $('#usersTable').dataTable(a.user2.datatables_options).api();
+        },
+        btnSearchClick:function () {
+            a.user2.table.draw();
+        }
+    }
 })(SYBR)

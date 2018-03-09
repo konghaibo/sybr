@@ -25,7 +25,7 @@
 
     <!-- Left side column. contains the logo and sidebar -->
     <jsp:include page="../common/left.jsp">
-        <jsp:param name="moudleId" value="10"/>
+        <jsp:param name="moudleId" value="11"/>
     </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
@@ -80,7 +80,7 @@
                     <div class="box">
                         <div class="box-header">
                             <%--<h3 class="box-title">Hover Data Table</h3>--%>
-                                <span>查询列表(从服务端一次性获取所有数据,然后在客户端分页处理)</span>
+                                <span>查询列表(在服务端处理数据分页)</span>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -133,7 +133,7 @@
 <script src="${ctx}/adminLTE/js/adminlte.min.js"></script>
 <script>
     $(document).ready(function() {
-        SYBR.user.init();
+        SYBR.user2.init();
     });
 </script>
 </body>

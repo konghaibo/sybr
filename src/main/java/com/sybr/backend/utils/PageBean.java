@@ -28,6 +28,11 @@ public class PageBean<T> {
      */
     private List<T> data;
 
+    //for jquery datatables
+    private Integer draw;
+    private Integer recordsTotal;
+    private Integer recordsFiltered;
+
     public Integer getPageNum() {
         return pageNum;
     }
@@ -66,6 +71,30 @@ public class PageBean<T> {
 
     public void setData(List<T> data) {
         this.data = data;
+    }
+
+    public Integer getRecordsTotal() {
+        return recordsTotal;
+    }
+
+    public void setRecordsTotal(Integer recordsTotal) {
+        this.recordsTotal = recordsTotal;
+    }
+
+    public Integer getRecordsFiltered() {
+        return recordsFiltered;
+    }
+
+    public void setRecordsFiltered(Integer recordsFiltered) {
+        this.recordsFiltered = recordsFiltered;
+    }
+
+    public Integer getDraw() {
+        return draw;
+    }
+
+    public void setDraw(Integer draw) {
+        this.draw = draw;
     }
 
     @Override

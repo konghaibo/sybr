@@ -52,6 +52,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li value="10"><a href="${pageContext.servletContext.contextPath}/users/list" style="cursor: pointer;">&nbsp;&nbsp;&nbsp;<i class="fa fa-user"></i>用户管理</a></li>
+                    <li value="11"><a href="${pageContext.servletContext.contextPath}/users/list2" style="cursor: pointer;">&nbsp;&nbsp;&nbsp;<i class="fa fa-user"></i>用户管理2</a></li>
                     <li><a href="${pageContext.servletContext.contextPath}/users/list" style="cursor: pointer;">&nbsp;&nbsp;&nbsp;<i class="fa fa-link"></i>角色权限</a></li>
                 </ul>
             </li>
@@ -68,7 +69,7 @@
         $(document).ready(function () {
             var $link = $("li[value=<%=moudleId%>]");
             $link.addClass("active");
-            if(10==<%=moudleId%>){
+            if(10==<%=moudleId%> || 11==<%=moudleId%>){
                 $link.parents('.treeview').addClass("active");
 //                $link.parents(".treeview").addClass("menu-open");
                 $link.parents(".treeview-menu").css("display","block");

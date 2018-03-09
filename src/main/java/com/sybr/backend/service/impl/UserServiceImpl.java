@@ -11,12 +11,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public PageBean<User> query(Map params) {
+        PageBean<User> pageBean = new PageBean<>();
+        Integer pageSize = (Integer)params.get("length");
+        Integer pageNum = (Integer)params.get("start");
+        pageBean.setPageSize(pageSize);
+        pageBean.setPageNum(pageNum);
+        //根据条件查询用户数据
+        List<User> users = userDao.queryAllByPage(params);
+        pageBean.setData(users);
+        //查询总记录条数
+        int count = userDao.queryAllCount(params);
+        pageBean.setTotalCount(count);
+        int totalPage = (count - 1) / pageSize + 1;
+        pageBean.setTotalPage(totalPage);
+        return pageBean;
+    }
 
     @Override
     public PageBean<User> list(QueryListBean queryListBean){
@@ -27,6 +46,11 @@ public class UserServiceImpl implements UserService{
             List<User> users = userDao.list(queryListBean);
             pageBean.setTotalCount(users.size());
             pageBean.setData(users);
+
+            //test,for jquery datatables
+            pageBean.setDraw(1);
+            pageBean.setRecordsTotal(users.size());
+            pageBean.setRecordsFiltered(users.size());
             return pageBean;
         }
         // 需要分页
@@ -43,6 +67,12 @@ public class UserServiceImpl implements UserService{
         pageBean.setTotalCount(count);
         int totalPage = (count-1)/pageSize+1;
         pageBean.setTotalPage(totalPage);
+
+        //test,for jquery datatables
+        pageBean.setDraw(1);
+        pageBean.setRecordsTotal(count);
+        pageBean.setRecordsFiltered(count);
+
         return pageBean;
     }
 

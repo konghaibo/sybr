@@ -58,6 +58,22 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("/list2")
+    public ModelAndView list2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mv = new ModelAndView("system/user2");
+        return mv;
+    }
+
+    @PostMapping("/query2")
+    @ResponseBody
+    public Result query2(@RequestBody String params, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        logger.info(params);
+        ObjectMapper mapper = new ObjectMapper();
+        Map map = mapper.readValue(params, Map.class);
+        PageBean<User> pageBean = userService.query(map);
+        return ResultUtils.success(pageBean);
+    }
+
     @PostMapping("/query")
     @ResponseBody
     public Result query(@RequestBody String params, HttpServletRequest request, HttpServletResponse response) throws Exception {
