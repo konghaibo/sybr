@@ -59,6 +59,7 @@
         },
         init:function () {
             $("#btn_query").on("click", a.user.btnSearchClick);
+            $("#form_test").on("submit", a.user.formSubmit);
             a.user.table = $('#usersTable').DataTable(a.user.datatables_options);
             $("#btn_query").trigger("click");
             // t.on('order.dt search.dt',
@@ -114,6 +115,18 @@
             // url.load(function(result){
             //     alert(result);
             // });
+        },
+        //一般表单的提交用的都是用button然后用ajax来提交，但是用button就不能触发HTML5的自带表单验证,用submit的话就又会直接提交表单,
+        // 用submit来提交表单，然后在js中监听submit方法，用ajax提交表单最后阻止submit的自动提交
+        //H5自带的验证只是比较简单的验证，不是很完美，只适合做比较简单的验证。最好是用jQ的Validation插件或者其他表单验证插件。
+        formSubmit:function (ev) {
+            console.log("formSubmit.....");
+            //TODO AJAX提交
+
+            //阻止submit表单提交
+            ev.preventDefault();
+            //或者return false
+            //return false;
         }
     }
     a.user2 = {
@@ -123,12 +136,12 @@
             lengthChange: false,
             searching: false,
             autoWidth: false,
-            iDisplayLength: 3,
+            iDisplayLength: 10,
             ordering: false,
             // processing: true,
             serverSide: true,
             ajax: function(data, callback, settings) {
-                data.khb = "konghaibo";
+                data.queryConditions = $("#queryForm").serializeJSON();
                 console.log(JSON.stringify(data));
                 $.ajax({
                     beforeSend:function(){
@@ -170,9 +183,23 @@
                 });
             },
             columns: [
-                { "data": "id" },
-                { "data": "name" },
-                { "data": "code" }
+                { "data": "id", "width":"100px"},
+                { "data": "name", "render": function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="' + data + '" target="_blank">' + row.name + '</a>';
+                }},
+                { "data": "code", "width":"200px" },
+                {
+                    "data": "id",
+                    "orderable": false, // 禁用排序
+                    "defaultContent": "",
+                    "width": "200px"
+                    ,"render": function (data, type, row, meta) {
+                        return data = '<button style="margin-bottom:-5px;margin-top: -10px;" class="btn btn-info btn-sm" data-id=' + data + '><i class="fa fa-pencil"></i>Edit</button>'
+                            + '&nbsp;&nbsp;<button style="margin-bottom:-5px;margin-top: -10px;" class="btn btn-danger btn-sm" data-id=' + data + '><i class="fa fa-trash-o"></i>Delete</button>';
+
+                    }
+                }
             ]
         },
         init:function () {
@@ -182,5 +209,6 @@
         btnSearchClick:function () {
             a.user2.table.draw();
         }
+
     }
 })(SYBR)

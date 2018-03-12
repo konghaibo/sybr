@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" style="margin-top:-5px;">
                     <div class="row">
                         <div class="col-lg-16">
                             <div class="box-header with-border" style="padding:0px 0px 0px 15px;">
@@ -65,7 +65,7 @@
                                     <option value ="0">激活</option>
                                     <option value ="1">禁用</option>
                                 </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" id="btn_query" class="btn btn-primary btn-sm" style="margin-bottom:5px;">Submit</button>
+                                <button type="button" id="btn_query" class="btn btn-primary btn-sm" style="margin-bottom:5px;">查&nbsp;&nbsp;询</button>
                                 </form>
                             </div>
                         </div>
@@ -81,15 +81,21 @@
                         <div class="box-header">
                             <%--<h3 class="box-title">Hover Data Table</h3>--%>
                                 <span>查询列表(在服务端处理数据分页)</span>
+                                <div class="box-tools">
+                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                        <button type="button" id="btn_add" class="btn btn-success btn-sm" style="margin-bottom:5px;" data-toggle="modal" data-target="#modal-default">新&nbsp;&nbsp;增</button>
+                                    </div>
+                                </div>
                         </div>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div class="box-body" style="margin-top:-15px;">
                             <table id="usersTable" class="table table-bordered table-hover table-striped">
                                 <thead>
-                                <tr>
+                                <tr style="height:25px;">
                                     <th>ID</th>
                                     <th>标题</th>
                                     <th>连接</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -102,6 +108,60 @@
                 </div>
             </div>
         </section>
+
+        <!--model dialog -->
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="form_test" action="" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">表单(bootstrapvalidator表单验证)</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">用户名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="请输入用户名称">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword" class="col-sm-2 control-label">用户代码</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="inputUserDesc" class="col-sm-2 control-label">用户描述</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputUserDesc" name="inputUserDesc" placeholder="用户描述">
+                                        </div>
+                                        <label for="inputUserStatus" class="col-sm-2 control-label">用户状态</label>
+                                        <div class="col-sm-4">
+                                            <input type="password" class="form-control" id="inputUserStatus" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" id="btn_save" class="btn btn-primary pull-right">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
     </div>
     <!-- /.content-wrapper -->
 

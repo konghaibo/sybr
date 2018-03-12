@@ -55,17 +55,19 @@
                         <div class="col-lg-16">
                             <div class="box-header with-border" style="padding:0px 0px 0px 15px;">
                                 <form id="queryForm">
-                                <label >用户名：</label>
-                                <input type="text" name="name" id="query_userName">&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label >用户代码：</label>
-                                <input type="text" name="code"  id="query_userCode">&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label >状态：</label>
-                                <select name="userDesc" id="query_userStatus">
-                                    <option value =""></option>
-                                    <option value ="0">激活</option>
-                                    <option value ="1">禁用</option>
-                                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" id="btn_query" class="btn btn-primary btn-sm" style="margin-bottom:5px;">Submit</button>
+                                    <label >用户名：</label>
+                                    <input type="text" name="name" id="query_userName">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label >用户代码：</label>
+                                    <input type="text" name="code"  id="query_userCode">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label >状态：</label>
+                                    <select name="userDesc" id="query_userStatus">
+                                        <option value =""></option>
+                                        <option value ="0">激活</option>
+                                        <option value ="1">禁用</option>
+                                    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" id="btn_query" class="btn btn-primary btn-sm" style="margin-bottom:5px;">Submit</button>
+
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">新增用户</button>
                                 </form>
                             </div>
                         </div>
@@ -101,9 +103,67 @@
                     </div>
                 </div>
             </div>
+
         </section>
+
+        <!--model dialog -->
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="form_test" action="" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">表单(HTML5自带表单验证)</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="col-sm-2 control-label">用户名称</label>
+                                            <div class="col-sm-10">
+                                                <!--<input type="text" class="form-control" id="inputEmail" placeholder="请输入用户名称" required pattern="[\u4e00-\u9fa5]{2,4}" oninvalid="validatelt(this,'用户名称不能为空')">-->
+                                                <input type="text" class="form-control" id="inputEmail" placeholder="请输入用户名称" required oninvalid="setCustomValidity('用户名称不能为空')" oninput="setCustomValidity('')">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="col-sm-2 control-label">用户代码</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="Password"  pattern="^[a-zA-Z]\w{5,7}$" title="密码应包含英文字母和数字，且长度为6到8位">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="inputUserDesc" class="col-sm-2 control-label">用户描述</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputUserDesc" name="inputUserDesc" placeholder="用户描述" required pattern="[\u4e00-\u9fa5]{2,4}" oninvalid="setCustomValidity('真实姓名必须是中文，且长度不小于2，不大于4')" oninput="setCustomValidity('')">
+                                        </div>
+                                        <label for="inputUserStatus" class="col-sm-2 control-label">用户状态</label>
+                                        <div class="col-sm-4">
+                                            <input type="password" class="form-control" id="inputUserStatus" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="submit" id="btn_save" class="btn btn-primary pull-right">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
     </div>
     <!-- /.content-wrapper -->
+
+
 
     <!-- Main Footer -->
     <jsp:include page="../common/footer.jsp"/>
@@ -132,7 +192,46 @@
 <!-- AdminLTE App -->
 <script src="${ctx}/adminLTE/js/adminlte.min.js"></script>
 <script>
+    function validatelt(inputelement,err){
+        if(inputelement.validity.patternMismatch){
+            inputelement.setCustomValidity(err); }
+        else{
+            inputelement.setCustomValidity("");
+            return true;
+        }
+    }
     $(document).ready(function() {
+//        $('#form_test').bootstrapValidator({
+//            live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+//            excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
+//            submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+//            message: '通用的验证失败消息',//好像从来没出现过
+//            feedbackIcons: {//根据验证结果显示的各种图标
+//                valid: 'glyphicon glyphicon-ok',
+//                invalid: 'glyphicon glyphicon-remove',
+//                validating: 'glyphicon glyphicon-refresh'
+//            },
+//            fields: {
+//                inputUserDesc: {
+//                    message: '用户描述不合法',
+//                    validators: {
+//                        notEmpty: {
+//                            message: '用户描述不能为空'
+//                        },
+//                        stringLength: {
+//                            min: 3,
+//                            max: 30,
+//                            message: '请输入3到30个字符'
+//                        },
+//                        regexp: {
+//                            regexp: /^[a-zA-Z0-9_\. \u4e00-\u9fa5 ]+$/,
+//                            message: '用户描述只能由字母、数字、点、下划线和汉字组成 '
+//                        }
+//                    }
+//                }
+//            }
+//
+//        });
         SYBR.user.init();
     });
 </script>

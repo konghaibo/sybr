@@ -34,13 +34,13 @@
 
     <!--条件分页列表查询-->
     <select id="queryAllByPage" parameterType="map" resultMap="userMap">
-        SELECT id,name,code,userDesc FROM sybr_user where 1=1
+        SELECT id,name,code,userDesc FROM sybr_user
         <where>
-            <if test="name!='' and name!=NULL">
-                and name LIKE '%${name}%'
+            <if test="queryConditions!=null and queryConditions.name!=null and queryConditions.name!=''">
+                and name LIKE '%${queryConditions.name}%'
             </if>
-            <if test="code!='' and code!=NULL ">
-                and code = '${code}'
+            <if test="queryConditions!=null and queryConditions.code!=null and queryConditions.code!=''">
+                and code = '${queryConditions.code}'
             </if>
         </where>
         ORDER BY id
@@ -49,13 +49,13 @@
 
     <!--条件数量查询-->
     <select id="queryAllCount" parameterType="map" resultType="int">
-        SELECT count(id) FROM sybr_user where 1=1
+        SELECT count(id) FROM sybr_user
         <where>
-            <if test="name!='' and name!=NULL">
-                and name LIKE '%${name}%'
+            <if test="queryConditions!=null and queryConditions.name!=null and queryConditions.name!=''">
+                and name LIKE '%${queryConditions.name}%'
             </if>
-            <if test="code!='' and code!=NULL ">
-                and code = '${code}'
+            <if test="queryConditions!=null and queryConditions.code!=null and queryConditions.code!=''">
+                and code = '${queryConditions.code}'
             </if>
         </where>
     </select>
